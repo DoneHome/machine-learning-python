@@ -18,7 +18,7 @@ def hypothesis_func(w, x):
 def evaluate_gradient(w, x, y):
     return (hypothesis_func(w, x) - y) * x
 
-def BGD(x, y, w, l_r=0.0001, num_iters=80):
+def BGD(x, y, w, l_r=0.0001, num_iters=1000):
     """
     Batch Gradient Descent
     x: 输入值
@@ -35,7 +35,6 @@ def BGD(x, y, w, l_r=0.0001, num_iters=80):
             grad += evaluate_gradient(w, x[j], y[j])
         w -= 1.0/num_train * l_r * grad
     return w
-
 
 def SGD(x, y, w, l_r=0.0001, num_iters=800):
     """
@@ -91,8 +90,8 @@ if __name__ == "__main__":
 
     W = np.random.randn(input_x.shape[1])
 
-    #W = BGD(input_x, input_y, W)
-    W = SGD(input_x, input_y, W)
+    W = BGD(input_x, input_y, W)
+    #W = SGD(input_x, input_y, W)
     #W = MBGD(input_x, input_y, W)
 
     print W
