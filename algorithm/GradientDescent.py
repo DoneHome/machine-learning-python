@@ -8,9 +8,11 @@ import matplotlib.pyplot as plt
 线性回归
 """
 
-data = np.genfromtxt("data.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./data/liner_regression_data.csv", dtype=np.float64, delimiter=",")
 plt.figure(1)
 plt.scatter(data[:,0],data[:,1])
+
+plt.show(block=False)
 
 def hypothesis_func(w, x):
     return w[0]*x[0]+w[1]*x[1]
@@ -18,7 +20,7 @@ def hypothesis_func(w, x):
 def evaluate_gradient(w, x, y):
     return (hypothesis_func(w, x) - y) * x
 
-def BGD(x, y, w, l_r=0.0001, num_iters=1000):
+def BGD(x, y, w, l_r=0.0001, num_iters=100):
     """
     Batch Gradient Descent
     x: 输入值
@@ -34,6 +36,11 @@ def BGD(x, y, w, l_r=0.0001, num_iters=1000):
         for j in range(num_train):
             grad += evaluate_gradient(w, x[j], y[j])
         w -= 1.0/num_train * l_r * grad
+
+        #x1 = np.linspace(0, 100, 10)
+        #plt.plot(x1, w[0]*x1+w[1])
+        #plt.draw()
+        #plt.pause(0.01)
     return w
 
 def SGD(x, y, w, l_r=0.0001, num_iters=800):
@@ -88,7 +95,7 @@ if __name__ == "__main__":
     input_x = np.hstack([x, np.ones((x.shape[0], 1))])
     input_y = y
 
-    W = np.random.randn(input_x.shape[1])
+    W = np.random.randn(input_x.shape[1]) * 0.01
 
     W = BGD(input_x, input_y, W)
     #W = SGD(input_x, input_y, W)
