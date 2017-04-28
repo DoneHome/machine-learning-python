@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     print W
     x = np.linspace(0, 100, 10)
-    plt.plot(x, W[0]*x+W[1])
+    plt.plot(x, W[0]*x+W[1], color="red")
     plt.show()
 
 

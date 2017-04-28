@@ -23,7 +23,7 @@ class LWR():
         self.weight = np.zeros((self.num_test, self.num_train))
 
         self.theta = np.random.randn(self.num_test, self.x_train.shape[1])
-        self.tau = 0.001 # if the value is smaller, the decay will be faster
+        self.tau = 0.1 # if the value is smaller, the decay will be faster
         self.num_iters = 1000
         self.alpha = 0.01 # learing rate
 
