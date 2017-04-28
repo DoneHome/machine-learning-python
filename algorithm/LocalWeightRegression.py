@@ -23,9 +23,10 @@ class LWR():
         self.weight = np.zeros((self.num_test, self.num_train))
 
         self.theta = np.random.randn(self.num_test, self.x_train.shape[1])
-        self.tau = 0.01 # if the value is smaller, the decay will be faster
+        self.tau = 0.001 # if the value is smaller, the decay will be faster
         self.num_iters = 1000
-        self.alpha = 0.0001 # learing rate
+        self.alpha = 0.01 # learing rate
+
         self._calc_weight()
 
     def _calc_weight(self):
@@ -54,12 +55,10 @@ class LWR():
         for idx in range(len(self.x_test)):
             weight = self.weight[idx, :]
             theta = self.theta[idx, :]
-            self.theta[idx, :] = self.GradientOptimization(weight, theta) 
-
-            y_output = self.x_test[idx] * self.theta[idx, :][0] + self.theta[idx, :][1]
+            theta = self.GradientOptimization(weight, theta) 
+            y_output = self.x_test[idx] * theta[0] + theta[1]
             output.append(y_output)
         return np.array(output)
-
 
 if __name__ == "__main__":
     x = data[:, 0].reshape(-1, 1)
