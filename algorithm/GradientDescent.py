@@ -12,7 +12,7 @@ data = np.genfromtxt("./data/liner_regression_data.csv", dtype=np.float64, delim
 plt.figure(1)
 plt.scatter(data[:,0],data[:,1])
 
-plt.show(block=False)
+#plt.show(block=False)
 
 def hypothesis_func(w, x):
     return w[0]*x[0]+w[1]*x[1]
