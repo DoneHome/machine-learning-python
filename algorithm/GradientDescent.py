@@ -57,7 +57,8 @@ def SGD(x, y, w, l_r=0.0001, num_iters=800):
         _iter += 1
 
         mask = np.random.choice(num_train, 1, replace=False)
-        x_train = x[mask][0]
+        #感觉这里需要一个循环 for i in num_train:
+        x_train = x[mask][0] #这里只有一个样本, 所以直接取出来了
         y_train = y[mask][0]
 
         grad = evaluate_gradient(w, x_train, y_train)
