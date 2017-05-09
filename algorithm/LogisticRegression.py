@@ -1,5 +1,4 @@
 # coding:utf-8
-
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +9,8 @@ min_max_scaler = preprocessing.MinMaxScaler()
 
 #data = np.genfromtxt("./data/logistic_regression.csv", dtype=np.float64, delimiter=",")
 data = np.genfromtxt("./data/logistic_regression_2.txt", dtype=np.float64, delimiter=",")
-plt.figure(1,figsize=(15,15))
+#plt.figure(1,figsize=(10, 10))
+plt.figure(1)
 
 
 class LR():
@@ -22,21 +22,13 @@ class LR():
         self.alpha = 0.001 # learning rate
         self.num_iters = 1000
         self.eps = 1e-1
-        self.batch = 1 # mini batch for training, here is SGD
+        self.batch = 1 # mini batch for training
         self.theta = None # A numpy array of shape (1, M) containing weights
 
     def hypothesis_func(self, x):
         """sigmoid
         """
         return 1.0/(1.0 + np.exp(-1.0 * x.dot(self.theta.T)))
-
-    def cost_func(self, x):
-        pass
-
-    def evaluate_gradient(self, x, y):
-        h = self.hypothesis_func(x)
-        return np.sum((y.reshape(-1, 1) - h) * x, axis = 0)
-        #return np.sum((y.reshape(-1, 1) - self.hypothesis_func(x)) * x, axis = 0)
 
     def evaluate_loss(self, x, y):
         loss = 0
@@ -51,11 +43,42 @@ class LR():
         return np.abs(loss)
         #return np.sum(y.reshape(-1, 1) * np.log(self.hypothesis_func(x)) + (1.0 - y.reshape(-1, 1)) * np.log(1.0 - self.hypothesis_func(x)))
 
-    def NewtonOptimization(self):
+    def evaluate_gradient(self, x, y):
+        h = self.hypothesis_func(x)
+        return np.sum((h - y.reshape(-1, 1)) * x, axis = 0)
+
+    def evaluate_hessian(self, x):
+        """
+        hessian: A numpy array of shape (N, M) containing second derivative;
+        """
+        _h = self.hypothesis_func(x) * (1.0 - self.hypothesis_func(x))
+        _h = np.diag(_h.reshape(_h.shape[0],))
+        hessian = ((x.T).dot(_h)).dot(x)
+        return hessian
+
+    def NewtonOptimization(self, X, Y):
         """
         use newton method to optimize gradient descent
         """
-        pass
+        num_train = X.shape[0]
+        loss = sys.maxint
+        _iter = 0
+
+        loss_epoch = {}
+
+        while loss > self.eps and _iter < self.num_iters:
+            grad = self.evaluate_gradient(X, Y)
+            hess = self.evaluate_hessian(X)
+
+            H_inv = np.linalg.pinv(hess)
+            self.theta -= H_inv.dot(grad.T)
+
+            loss = 1.0/num_train * self.evaluate_loss(X, Y)
+
+            loss_epoch[_iter] = loss
+
+            _iter += 1
+        return loss_epoch
 
     def GradientOptimization(self, X, Y):
         """
@@ -76,7 +99,7 @@ class LR():
                 y_train = Y[mask]
 
                 grad = self.evaluate_gradient(x_train, y_train)
-                self.theta += 1.0/self.batch * self.alpha * grad
+                self.theta -= 1.0/self.batch * self.alpha * grad
 
             loss = 1.0/num_train * self.evaluate_loss(X, Y)
 
@@ -88,19 +111,25 @@ class LR():
 
     def train(self, X, Y, opt="batch"):
         """
-        X: A numpy array of shape (N, M) containing training data where N is sample numbers, M is feature numbers
-        Y: A numpy array of shape (N, ) containing training label
+        X: A numpy array of shape (N, M) containing training data where N are sample numbers, M are feature numbers
+        Y: A numpy array of shape (N, ) containing training labels
         """
         self.theta = np.random.randn(1, X.shape[1])
-        #self.theta = np.ones((1, X.shape[1]))
 
         if opt == "batch":
+            """
+            sgd loss epoch曲线十分平滑，难道在收敛的过程中不应该有些波动吗？
+            """
             loss_epoch = self.GradientOptimization(X, Y)
             return loss_epoch
         elif opt == "newton":
-            pass
+            """
+            不稳定，跑n次才成功一次
+            """
+            loss_epoch = self.NewtonOptimization(X, Y)
+            return loss_epoch
         else:
-            raise Exception("%s don't exists" % opt)
+            raise Exception("%s don't exist" % opt)
 
 
 if __name__ == "__main__":
@@ -111,8 +140,10 @@ if __name__ == "__main__":
     trainY = data[:,-1]
 
     lr = LR()
-    loss_epoch = lr.train(trainX, trainY, opt="batch")
-    #print lr.theta
+    #loss_epoch = lr.train(trainX, trainY, opt="batch")
+    loss_epoch = lr.train(trainX, trainY, opt="newton")
+    print lr.theta
+    print loss_epoch
 
     p1 = plt.subplot(211)
 
@@ -133,7 +164,6 @@ if __name__ == "__main__":
     p2.scatter(neg_data[:,0], neg_data[:,1], color="blue")
     p2.set_ylabel("x2")
     p2.set_xlabel("x1")
-
 
     _x = np.arange(-5.0, 5.0, 0.1)
     #_x = np.arange(30, 100, 10)
