@@ -7,8 +7,8 @@ from sklearn import preprocessing
 
 min_max_scaler = preprocessing.MinMaxScaler()
 
-#data = np.genfromtxt("./data/logistic_regression.csv", dtype=np.float64, delimiter=",")
-data = np.genfromtxt("./data/logistic_regression_2.txt", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./data/logistic_regression.csv", dtype=np.float64, delimiter=",")
+#data = np.genfromtxt("./data/logistic_regression_2.txt", dtype=np.float64, delimiter=",")
 #plt.figure(1,figsize=(10, 10))
 plt.figure(1)
 
@@ -20,9 +20,9 @@ class LR():
 
     def __init__(self):
         self.alpha = 0.001 # learning rate
-        self.num_iters = 1000
+        self.num_iters = 1000 * 100
         self.eps = 1e-1
-        self.batch = 1 # mini batch for training
+        self.batch = 100 # mini batch for training
         self.theta = None # A numpy array of shape (1, M) containing weights
 
     def hypothesis_func(self, x):
@@ -92,19 +92,18 @@ class LR():
         loss_epoch = {}
 
         while loss > self.eps and _iter < self.num_iters:
-            for idx in range(num_train):
-                #self.alpha = 4.0 / (1.0 + idx + _iter) + 0.001
-                mask = np.random.choice(num_train, self.batch, replace=False)
-                x_train = X[mask]
-                y_train = Y[mask]
+            mask = np.random.choice(num_train, self.batch, replace=False)
+            x_train = X[mask]
+            y_train = Y[mask]
 
-                grad = self.evaluate_gradient(x_train, y_train)
-                self.theta -= 1.0/self.batch * self.alpha * grad
+            grad = self.evaluate_gradient(x_train, y_train)
+            self.theta -= 1.0/self.batch * self.alpha * grad
 
-            loss = 1.0/num_train * self.evaluate_loss(X, Y)
+            #loss = 1.0/num_train * self.evaluate_loss(X, Y)
 
-            if _iter % 10 == 0:
-                loss_epoch[_iter] = loss
+            if _iter % 100 == 0:
+                loss = 1.0/num_train * self.evaluate_loss(X, Y)
+                loss_epoch[_iter/100] = loss
 
             _iter += 1
         return loss_epoch
@@ -134,14 +133,14 @@ class LR():
 
 if __name__ == "__main__":
     X = data[:,:2]
-    #x = preprocessing.scale(X)
-    #X = min_max_scaler.fit_transform(X)
+    #X = preprocessing.scale(X)
+    X = min_max_scaler.fit_transform(X)
     trainX = np.hstack([np.ones((X.shape[0], 1)), X])
     trainY = data[:,-1]
 
     lr = LR()
-    #loss_epoch = lr.train(trainX, trainY, opt="batch")
-    loss_epoch = lr.train(trainX, trainY, opt="newton")
+    loss_epoch = lr.train(trainX, trainY, opt="batch")
+    #loss_epoch = lr.train(trainX, trainY, opt="newton")
     print lr.theta
     print loss_epoch
 
@@ -158,14 +157,19 @@ if __name__ == "__main__":
     p1.set_xlabel("epoch")
 
     p2 = plt.subplot(212)
-    pos_data = data[data[:,-1]==1]
-    neg_data = data[data[:,-1]==0]
+    pos_data = data[data[:,-1]==1][:,:2]
+    neg_data = data[data[:,-1]==0][:,:2]
+
+    pos_data = min_max_scaler.fit_transform(pos_data)
+    neg_data = min_max_scaler.fit_transform(neg_data)
+
     p2.scatter(pos_data[:,0], pos_data[:,1], color="red")
     p2.scatter(neg_data[:,0], neg_data[:,1], color="blue")
     p2.set_ylabel("x2")
     p2.set_xlabel("x1")
 
-    _x = np.arange(-5.0, 5.0, 0.1)
+    #_x = np.arange(-5.0, 5.0, 0.1)
+    _x = np.arange(0.0, 1.0, 0.1)
     #_x = np.arange(30, 100, 10)
     _y = (-lr.theta[0][0] - lr.theta[0][1]*_x) / lr.theta[0][2]
     p2.plot(_x, _y)
