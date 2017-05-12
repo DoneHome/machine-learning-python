@@ -32,18 +32,15 @@ def BGD(x, y, w, l_r=0.0001, num_iters=100):
     num_train = x.shape[0]
 
     for i in range(num_iters):
-        grad = np.zeros(w.shape[0])
-        for j in range(num_train):
-            grad += evaluate_gradient(w, x[j], y[j])
-        w -= 1.0/num_train * l_r * grad
-
-        #x1 = np.linspace(0, 100, 10)
-        #plt.plot(x1, w[0]*x1+w[1])
-        #plt.draw()
-        #plt.pause(0.01)
+        """
+        notice: 
+           num_train一定要在grad这一行进行相除, 如果在w更新时再除以的话，会无法收敛到最优解, 直观表现, 梯度不趋向0
+        """
+        grad = np.sum((x.dot(w).reshape(-1, 1) - y) * x, axis = 0)/num_train
+        w -= l_r * grad
     return w
 
-def SGD(x, y, w, l_r=0.0001, num_iters=800):
+def SGD(x, y, w, l_r=0.0001, num_iters=20):
     """
     Stochastic Gradient Descent
     如何解决err数值溢出, 加log? 其实我怀疑是l_r选取过大，导致发散
@@ -57,7 +54,6 @@ def SGD(x, y, w, l_r=0.0001, num_iters=800):
         _iter += 1
 
         mask = np.random.choice(num_train, 1, replace=False)
-        #感觉这里需要一个循环 for i in num_train:
         x_train = x[mask][0] #这里只有一个样本, 所以直接取出来了
         y_train = y[mask][0]
 
@@ -93,18 +89,17 @@ if __name__ == "__main__":
     x = data[:, 0].reshape(-1, 1)
     y = data[:, 1].reshape(-1, 1)
 
-    input_x = np.hstack([x, np.ones((x.shape[0], 1))])
+    input_x = np.hstack([np.ones((x.shape[0], 1)), x])
     input_y = y
 
     W = np.random.randn(input_x.shape[1]) * 0.01
 
-    W = BGD(input_x, input_y, W)
-    #W = SGD(input_x, input_y, W)
+    #W = BGD(input_x, input_y, W)
+    W = SGD(input_x, input_y, W)
     #W = MBGD(input_x, input_y, W)
 
-    print W
     x = np.linspace(0, 100, 10)
-    plt.plot(x, W[0]*x+W[1], color="red")
+    plt.plot(x, W[0]+W[1]*x, color="red")
     plt.show()
 
 
