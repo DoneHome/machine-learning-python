@@ -20,7 +20,6 @@
 
 *	pic (可视化效果图)
 	*	举例: <img src="https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/Logistic_Regression_SGD.png" width = "450" alt="逻辑回归" align=center />
-
 	*	举例: ![线性回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/line_regression.png) ![逻辑回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/Logistic_Regression_SGD.png)
 
 
