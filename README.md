@@ -1,7 +1,8 @@
 # STUDY
-####学习过程中的编码尝试:
 
-##一, [Algorithm](https://github.com/DoneHome/STUDY/tree/master/algorithm)
+#### 学习过程中的编码尝试:
+
+## 一, [Algorithm](https://github.com/DoneHome/STUDY/tree/master/algorithm)
 ***
 
 *	code (机器学习算法实现)
@@ -18,10 +19,11 @@
 * 	data (测试数据)
 
 *	pic (可视化效果图)
-	*	举例：![线性回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/line_regression.png) ![逻辑回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/Logistic_Regression_SGD.png)
+	*	举例: <img src="https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/line_regression.png" width = "450" alt="线性回归" align=center />
+
+	*	举例: ![线性回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/line_regression.png) ![逻辑回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/Logistic_Regression_SGD.png)
 
 
 
-
-##二, [CS231n](https://github.com/DoneHome/STUDY/tree/master/cs231n)
+## 二, [CS231n](https://github.com/DoneHome/STUDY/tree/master/cs231n)
 
