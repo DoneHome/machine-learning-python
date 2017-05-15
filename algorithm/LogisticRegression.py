@@ -20,7 +20,8 @@ class LR():
 
     def __init__(self):
         self.alpha = 0.001 # learning rate
-        self.num_iters = 1000*100
+        #self.num_iters = 1000*100 # for sgd method
+        self.num_iters = 5 # for new_ton method
         self.eps = 1e-1
         self.batch = 1 # mini batch for training
         self.theta = None # A numpy array of shape (1, M) containing weights
@@ -49,7 +50,7 @@ class LR():
 
     def evaluate_hessian(self, x):
         """
-        hessian: A numpy array of shape (N, M) containing second derivative;
+        hessian: A numpy array of shape (N, N) containing second derivative;
         """
         _h = self.hypothesis_func(x) * (1.0 - self.hypothesis_func(x))
         _h = np.diag(_h.reshape(_h.shape[0],))
@@ -66,7 +67,7 @@ class LR():
 
         loss_epoch = {}
 
-        while loss > self.eps and _iter < self.num_iters:
+        while loss > self.eps and _iter < self.num_iters: # Here num_iters should set 5~15
             grad = self.evaluate_gradient(X, Y)
             hess = self.evaluate_hessian(X)
 
@@ -139,8 +140,8 @@ if __name__ == "__main__":
     trainY = data[:,-1]
 
     lr = LR()
-    loss_epoch = lr.train(trainX, trainY, opt="batch")
-    #loss_epoch = lr.train(trainX, trainY, opt="newton")
+    #loss_epoch = lr.train(trainX, trainY, opt="batch")
+    loss_epoch = lr.train(trainX, trainY, opt="newton")
     print lr.theta
     print loss_epoch
 

@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 data = np.genfromtxt("./data/local_weight_regression.csv", dtype=np.float64, delimiter=",")
-#data = np.genfromtxt("/Users/donghao/donehome_code/machinelearninginaction/Ch08/ex0.txt", dtype=np.float64, delimiter="\t")
 plt.figure(1)
 plt.scatter(data[:,0],data[:,1])
 
