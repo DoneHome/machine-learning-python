@@ -15,7 +15,7 @@
 		*	[Adaboost]
 		*	[隐马尔科夫](https://github.com/DoneHome/STUDY/blob/master/algorithm/HiddenMarkovModel.py)
 		*	...
-	*	###### 无监督学习算法:
+	*	###### 无监督学习:
 		*	[Kmeans]
 	*	... 
 	
