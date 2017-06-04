@@ -5,14 +5,18 @@
 ## 一, [Algorithm](https://github.com/DoneHome/STUDY/tree/master/algorithm)
 
 *	##### code (机器学习算法实现)
-	*	###### 回归算法:
+	*	###### 监督学习:
 		*	[线性回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/GradientDescent.py)
 		*	[局部加权回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/LocalWeightRegression.py)
-		*	...
-	*	###### 分类算法:
 		*	[逻辑回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/LogisticRegression.py)
 		*	[高斯判别分析](https://github.com/DoneHome/STUDY/blob/master/algorithm/GaussianDiscriminantAnalysis.py)
+		*	[支持向量机]
+		*	[GBDT]
+		*	[Adaboost]
+		*	[隐马尔科夫](https://github.com/DoneHome/STUDY/blob/master/algorithm/HiddenMarkovModel.py)
 		*	...
+	*	###### 无监督学习算法:
+		*	[Kmeans]
 	*	... 
 	
 * 	##### data (测试数据)
