@@ -2,6 +2,7 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+from SequentialMinimalOptimization import SMO
 
 data = np.genfromtxt("./data/gaussian_discriminant_analysis.csv", dtype=np.float64, delimiter=",")
 fig = plt.figure()
@@ -37,12 +38,26 @@ class SVM():
     Support Vector Machine
     """
 
-    def __init__(self, C=1, kernel="rbf", num_iters=100):
-        self.kernel = kernel # rbf or polynomial(for non-linear classifier) , linear (for linear classifier)
-        self.alpha = None # Lagrange multiplier, greater or equal to zero
+    def __init__(self, C=1, kernel="rbf", gamma=1.0, num_iters=100):
+        """
+        kernel: rbf or polynomial(for non-linear classifier), None (for linear classifier)
+        gamma: Only handle rbf kernel
+        alpha: Lagrange multiplier, greater or equal to zero
+
+        E_val: calculate the error for alpha_i
+        """
+        self.kernel = kernel
+        self.gamma = gamma
+        self.alpha = None
+        self.bias = 0
+        self.kernel_matrix = None
         self.C = C
         self.zeta = 0
+        self.eps = 0.001
 
+        self.E_val = {}
+
+        self.num_train = None
         self.num_iters = num_iters
 
     def hypothesis_func(self, x):
@@ -50,30 +65,57 @@ class SVM():
         """
         pass
 
-    def evaluate_kernel(self):
+    def evaluate_kernel_value(self, x, z):
+        if self.gamma == 0:
+            raise Exception("The gamma value of 0.0 is inavlid, you can try set gamma to a value of 1/n_features default")
+
         if self.kernel == "rbf":
-            pass
+            return np.exp((x - z).dot((x - z).T) / (-2.0 * self.gamma**2))
         elif self.kernel == "polynomial":
             pass
-        elif self.kernel == "linear":
+        elif self.kernel == "None":
             pass
         else:
-            raise Exception("%s don't exist" % opt)
+            raise Exception("The kernel type of %s is not supported" % opt)
 
-
-    def train(self, X, Y, kernelOpt="rbf"):
+    def evaluate_decision_error(self, Y):
         """
         """
-        num_train = X.shape[0]
-        self.alpha = np.zeros((num_train, 1))
-        print self.alpha
+        for i in range(self.num_train):
+            error = 0.0
+            for j in range(self.num_train):
+                error += self.alpha[j] * Y[j] * self.kernel_matrix[j][i]
+            error = error + self.bias - Y[i]
+            self.E_val[i] = error
 
+    def gen_kernel_matrix(self, X):
+        self.kernel_matrix = np.ones((self.num_train, self.num_train))
+
+        for i in range(self.num_train):
+            x_i = X[i]
+            for j in range(i+1, self.num_train):
+                x_j = X[j]
+                self.kernel_matrix[i, j] = self.evaluate_kernel_value(x_i, x_j)
+                self.kernel_matrix[j, i] = self.kernel_matrix[i, j]
+
+    def train(self, X, Y):
+        """
+        """
+        self.num_train = X.shape[0]
+        self.alpha = np.zeros((self.num_train, 1)) # initialize zero for all alpha factor
+        self.gen_kernel_matrix(X)
+        self.evaluate_decision_error(Y)
+
+        smo = SMO(self.alpha, self.kernel_matrix, self.C, self.num_iters, self.eps)
+        smo.optimize()
 
 if __name__ == "__main__":
     trainX = data[:,:2]
     trainY = data[:,-1:]
+    trainY[trainY==0] = -1
 
-    clf = SVM(C=1, kernel="rbf", num_iters=100)
+
+    clf = SVM(C=1, kernel="rbf", num_iters=100, gamma=1.0)
     clf.train(trainX, trainY)
 
     pos_data = data[data[:,-1]==1]
@@ -84,6 +126,4 @@ if __name__ == "__main__":
     # 绘制支持向量
     #pl.scatter(svc.support_vectors_[:, 0], svc.support_vectors_[:, 1], s=80, facecolors='none', zorder=10)
     #plt.show()
-
-
 
