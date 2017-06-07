@@ -44,7 +44,6 @@ class SVM():
         gamma: Only handle rbf kernel
         alpha: Lagrange multiplier, greater or equal to zero
 
-        E_val: calculate the error for alpha_i
         """
         self.kernel = kernel
         self.gamma = gamma
@@ -55,8 +54,6 @@ class SVM():
         self.zeta = 0
         self.eps = 0.001
 
-        self.E_val = {}
-
         self.num_train = None
         self.num_iters = num_iters
 
@@ -66,6 +63,8 @@ class SVM():
         pass
 
     def evaluate_kernel_value(self, x, z):
+        """
+        """
         if self.gamma == 0:
             raise Exception("The gamma value of 0.0 is inavlid, you can try set gamma to a value of 1/n_features default")
 
@@ -78,17 +77,10 @@ class SVM():
         else:
             raise Exception("The kernel type of %s is not supported" % opt)
 
-    def evaluate_decision_error(self, Y):
-        """
-        """
-        for i in range(self.num_train):
-            error = 0.0
-            for j in range(self.num_train):
-                error += self.alpha[j] * Y[j] * self.kernel_matrix[j][i]
-            error = error + self.bias - Y[i]
-            self.E_val[i] = error
-
     def gen_kernel_matrix(self, X):
+        """
+        Generate Kernel Matrix
+        """
         self.kernel_matrix = np.ones((self.num_train, self.num_train))
 
         for i in range(self.num_train):
@@ -102,18 +94,16 @@ class SVM():
         """
         """
         self.num_train = X.shape[0]
-        self.alpha = np.zeros((self.num_train, 1)) # initialize zero for all alpha factor
+        self.alpha = np.zeros((self.num_train, 1))
         self.gen_kernel_matrix(X)
-        self.evaluate_decision_error(Y)
 
-        smo = SMO(self.alpha, self.kernel_matrix, self.C, self.num_iters, self.eps)
+        smo = SMO(self.alpha, self.bias, self.kernel_matrix, self.C, self.num_train, self.num_iters, self.eps, Y)
         smo.optimize()
 
 if __name__ == "__main__":
     trainX = data[:,:2]
     trainY = data[:,-1:]
     trainY[trainY==0] = -1
-
 
     clf = SVM(C=1, kernel="rbf", num_iters=100, gamma=1.0)
     clf.train(trainX, trainY)
