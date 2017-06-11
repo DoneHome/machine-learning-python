@@ -68,17 +68,6 @@ class SMO():
         self.E_val[j] = E_k
         return j
 
-    def select_pair_alphas(self, candidateIdx):
-        """
-        1) choose alpha_i that against kkt
-        2) choose alpha_j that maxmize |Ei-Ej|
-        """
-        for i in candidateIdx:
-            if not self.is_satisfy_KKT(i):
-                j = self.select_alpha_J(i)
-                return [i, j]
-        return None
-
     def calc_alpha_bound(self, i, j):
         """
         """
