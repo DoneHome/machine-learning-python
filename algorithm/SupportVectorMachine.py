@@ -8,32 +8,6 @@ from SequentialMinimalOptimization import SMO
 data = np.genfromtxt("./data/svm.csv", dtype=np.float64, delimiter=",")
 fig = plt.figure()
 
-def plot_estimator(estimator, X, y):
-    """
-    这个函数的作用是基于分类器，对预测结果与原始标签进行可视化。
-    """
-
-    estimator.fit(X, y)
-    # 确定网格最大最小值作为边界
-    x_min, x_max = X[:, 0].min() - .1, X[:, 0].max() + .1
-    y_min, y_max = X[:, 1].min() - .1, X[:, 1].max() + .1
-    # 产生网格节点
-    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100),
-            np.linspace(y_min, y_max, 100))
-    # 基于分离器，对网格节点做预测
-    Z = estimator.predict(np.c_[xx.ravel(), yy.ravel()])
-
-    # 对预测结果上色
-    Z = Z.reshape(xx.shape)
-    pl.figure()
-    pl.pcolormesh(xx, yy, Z, cmap=cmap_light)
-
-    # 同时对原始训练样本上色
-    pl.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold)
-    pl.axis('tight')
-    pl.axis('off')
-    pl.tight_layout()
-
 def draw(data, sv, w, b):
     """
     """
@@ -46,7 +20,6 @@ def draw(data, sv, w, b):
 
     min_x = min(data[:, 0])
     max_x = max(data[:, 0])
-
 
     min_y = float(-b - w[0] * min_x) / w[1]
     max_y = float(-b - w[0] * max_x) / w[1]
@@ -106,7 +79,7 @@ class SVM():
             return np.exp((x - z).dot((x - z).T) / (-2.0 * self.gamma**2))
         elif self.kernel == "polynomial":
             pass
-        elif self.kernel == "None":
+        elif self.kernel == "linear":
             return x.dot(z.T)
         else:
             raise Exception("The kernel type of %s is not supported" % opt)
@@ -143,7 +116,7 @@ if __name__ == "__main__":
     trainY = data[:,-1:]
     #trainY[trainY==0] = -1
 
-    clf = SVM(C=100, kernel="None", num_iters=1000, gamma=1.0)
+    clf = SVM(C=100, kernel="linear", num_iters=1000, gamma=1.0)
     clf.train(trainX, trainY)
     sv = clf.support_vectors
 
