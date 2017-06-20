@@ -10,13 +10,14 @@
 		*	[局部加权回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/LocalWeightRegression.py)
 		*	[逻辑回归](https://github.com/DoneHome/STUDY/blob/master/algorithm/LogisticRegression.py)
 		*	[高斯判别分析](https://github.com/DoneHome/STUDY/blob/master/algorithm/GaussianDiscriminantAnalysis.py)
-		*	[支持向量机]
+		*	[支持向量机](https://github.com/DoneHome/STUDY/blob/master/algorithm/SupportVectorMachine.py)
 		*	[GBDT]
 		*	[Adaboost]
 		*	[隐马尔科夫](https://github.com/DoneHome/STUDY/blob/master/algorithm/HiddenMarkovModel.py)
 		*	...
 	*	###### 无监督学习:
 		*	[Kmeans]
+		*	[高斯混合模型]
 	*	... 
 	
 * 	##### data (测试数据)
