@@ -4,8 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from SequentialMinimalOptimization import SMO
 
-#data = np.genfromtxt("./data/gaussian_discriminant_analysis.csv", dtype=np.float64, delimiter=",")
-data = np.genfromtxt("./data/svm.csv", dtype=np.float64, delimiter=",")
+#data = np.genfromtxt("./data/svm.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./data/svm_rbf.csv", dtype=np.float64, delimiter=",")
+
 fig = plt.figure()
 
 def draw(data, sv, w, b):
@@ -23,15 +24,7 @@ def draw(data, sv, w, b):
 
     min_y = float(-b - w[0] * min_x) / w[1]
     max_y = float(-b - w[0] * max_x) / w[1]
-    plt.plot([min_x, max_x], [min_y, max_y], '-')
-
-    #min_y_down = float(-b - w[0] * min_x - r) / w[1]
-    #max_y_down = float(-b - w[0] * max_x - r) / w[1]
-    #plt.plot([min_x, max_x], [min_y_down, max_y_down], '--')
-
-    #min_y_up = float(-b - w[0] * min_x + r) / w[1]
-    #max_y_up = float(-b - w[0] * max_x + r) / w[1]
-    #plt.plot([min_x, max_x], [min_y_up, max_y_up], '--')
+    #plt.plot([min_x, max_x], [min_y, max_y], '-')
 
     plt.xlabel('x1')
     plt.ylabel('x2')
@@ -116,7 +109,8 @@ if __name__ == "__main__":
     trainY = data[:,-1:]
     #trainY[trainY==0] = -1
 
-    clf = SVM(C=100, kernel="linear", num_iters=1000, gamma=1.0)
+    #clf = SVM(C=100, kernel="linear", num_iters=1000)
+    clf = SVM(C=500, kernel="rbf", num_iters=10000, gamma=1.0)
     clf.train(trainX, trainY)
     sv = clf.support_vectors
 

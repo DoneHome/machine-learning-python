@@ -65,7 +65,7 @@ class SMO():
                 j = k
                 E_j = E_k
 
-        self.E_val[j] = E_k
+        self.E_val[j] = E_j
         return j
 
     def calc_alpha_bound(self, i, j):

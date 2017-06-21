@@ -2,7 +2,7 @@
 
 #### 学习过程中的编码尝试:
 
-## 一, [Algorithm](https://github.com/DoneHome/STUDY/tree/master/algorithm)
+## [Algorithm](https://github.com/DoneHome/STUDY/tree/master/algorithm)
 
 *	##### code (机器学习算法实现)
 	*	###### 监督学习:
@@ -27,6 +27,4 @@
 	*	###### 举例:  *逻辑回归*
 		<img src="https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/Logistic_Regression_SGD.png" width = "450" alt="逻辑回归" />
 
-
-## 二, [CS231n](https://github.com/DoneHome/STUDY/tree/master/cs231n)
 
