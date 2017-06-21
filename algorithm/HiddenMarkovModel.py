@@ -67,5 +67,5 @@ if __name__ == "__main__":
     Obs = np.array([0, 1, 0])
 
     h = HMM(Ann, Bnm, Pn, Obs)
-    #h.forward()
-    h.viterbi()
+    h.forward()
+    #h.viterbi()
