@@ -49,7 +49,6 @@ class SVM():
         self.bias = 0
         self.kernel_matrix = None
         self.C = C
-        self.zeta = 0
         self.tol= 0.001
 
         self.num_train = None
