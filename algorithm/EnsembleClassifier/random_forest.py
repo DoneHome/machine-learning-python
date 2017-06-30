@@ -22,7 +22,6 @@ class RF():
         #self.min_impurity_split = 1e-7
 
         self.trees = []
-        self.provider = None
 
     def bootstrap(self, data):
         """
@@ -38,20 +37,20 @@ class RF():
     def train(self, data):
         """
         """
-        #self.provider = DataProvider(data, self.subsample)
-
         for i in range(self.n_estimators):
             sub_samples = self.bootstrap(data)
             cart = CART(sub_samples, self.max_depth, self.min_samples_split, self.min_samples_leaf)
             tree = cart.createTree(sub_samples, depth=0)
-            print tree.show()
-            #self.trees.append(tree)
-            return
+            self.trees.append(tree)
 
     def predict(self, data):
         """
         """
-        pass
+        result = []
+        for row in data:
+            predictions = [tree.predict(row) for tree in self.trees]
+            result.append(max(set(predictions), key=predictions.count))
+        return result
 
 if __name__ == "__main__":
     source_data = np.genfromtxt("./gbdt_data.csv", dtype=str, delimiter=",")

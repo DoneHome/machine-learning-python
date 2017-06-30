@@ -13,16 +13,6 @@ class Tree():
         self.val = None
         self.left_node = None
         self.right_node = None
-        
-    @staticmethod
-    def show(layer=0):
-        """
-        """
-        print ' '*layer, self.name,' ', self.val
-        for node in [self.left_node, self.right_node]:
-            #if not isinstance(node, Tree):
-            #    continue
-            node.show(layer+1)
 
 class CART():
     """
@@ -37,6 +27,7 @@ class CART():
         self.min_samples_split = min_samples_split
         self.min_samples_leaf = min_samples_leaf
         self.random_features_nums = int(1+np.sqrt(self.provider.num_features))
+        self.tree = None
 
     def prune(self):
         pass
@@ -62,7 +53,6 @@ class CART():
 
     def splitDataSet(self, dataSet):
         """
-        Gini index
         """
         selectFeature = None
         selectFeatureVal = None
@@ -107,24 +97,29 @@ class CART():
     def recursiveGrowth(self, tree, depth, leftData, rightData):
         """
         """
-        if selectLeftData.shape[0] == 0 or selectRightData.shape[0] == 0:
-            if selectLeftData.shape[0] == 0:
-                merge_data = selectRightData
+
+        if leftData.shape[0] == 0 or rightData.shape[0] == 0:
+            #print "stop recursive growth: no split data"
+            if leftData.shape[0] == 0:
+                merge_data = rightData
             else:
-                merge_data = selectLeftData
+                merge_data = leftData
             tree.left_node = self.getLeafNodelValue(merge_data)
             tree.right_node = self.getLeafNodelValue(merge_data)
             return
 
         if depth >= self.max_depth:
+            #print "stop recursive growth:tree depth exceed max_depth:%s" %self.max_depth
             tree.left_node = self.getLeafNodelValue(leftData)
             tree.right_node = self.getLeafNodelValue(rightData)
             return
 
         if leftData.shape[0] < self.min_samples_split:
+            #print "left tree stop recursive growth: the split data below min_samples_split:%s" %self.min_samples_split
             tree.left_node = self.getLeafNodelValue(leftData)
             return
         else:
+            #print "left tree growth"
             featureName, featureValue, selectLeftData, selectRightData = self.splitDataSet(leftData)
             tree.left_node = Tree()
             tree.left_node.name = featureName
@@ -132,9 +127,11 @@ class CART():
             self.recursiveGrowth(tree.left_node, depth+1, selectLeftData, selectRightData)
 
         if rightData.shape[0] < self.min_samples_split:
+            #print "right tree stop recursive growth: the split data below min_samples_split:%s" %self.min_samples_split
             tree.right_node = self.getLeafNodelValue(rightData)
             return
         else:
+            #print "right tree growth"
             featureName, featureValue, selectLeftData, selectRightData = self.splitDataSet(rightData)
             tree.right_node= Tree()
             tree.right_node.name = featureName
@@ -150,28 +147,39 @@ class CART():
         root_tree.val = featureValue
         self.recursiveGrowth(root_tree, depth, selectLeftData, selectRightData)
 
-        #if depth < self.max_depth:
-        #    featureName, featureValue, selectLeftData, selectRightData = self.splitDataSet(sub_data)
-        #    tree = Tree()
-        #    tree.name = featureName
-        #    tree.val = featureValue
-        #    tree.left_node = self.createTree(selectLeftData, depth+1)
-        #    tree.right_node = self.createTree(selectRightData, depth+1)
-        #    return tree
-        #else:
-        #    tree = Tree()
-        #    tree.left_node = Tree()#self.getLeafNodelValue(sub_data)
-        #    tree.right_node = Tree()#self.getLeafNodelValue(sub_data)
-        #    return tree
+        self.tree = root_tree
+        return root_tree
 
-        return tree
+    def predict(self, data):
+        """
+        """
+        idx = self.tree.name
+        col_type = self.provider.col_type[idx]
 
-    def predict(self):
-        pass
-
+        if self.provider.col_type[idx] = "numerical":
+            if data[idx] <= self.tree.val:
+                if isinstance(self.left_node, Tree):
+                    return self.predict(self.left_node, data)
+                else:
+                    return self.left_node
+            else:
+                if isinstance(self.right_node, Tree):
+                    return self.predict(self.right_node, data)
+                else:
+                    return self.left_node
+        elif self.provider.col_type[idx] = "categorical":
+            if data[idx] == self.tree.val:
+                if isinstance(self.left_node, Tree):
+                    return self.predict(self.left_node, data)
+                else:
+                    return self.left_node
+            else:
+                if isinstance(self.right_node, Tree):
+                    return self.predict(self.right_node, data)
+                else:
+                    return self.left_node
 
 if __name__ == "__main__":
     source_data = np.genfromtxt("./gbdt_data.csv", dtype=str, delimiter=",")
-
     tree = CART(source_data)
 
