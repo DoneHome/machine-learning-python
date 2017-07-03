@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from SequentialMinimalOptimization import SMO
 
 #data = np.genfromtxt("./data/svm.csv", dtype=np.float64, delimiter=",")
-data = np.genfromtxt("./data/svm_rbf.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./svm_rbf.csv", dtype=np.float64, delimiter=",")
 
 fig = plt.figure()
 
