@@ -6,8 +6,10 @@
 
 *	##### code (机器学习算法实现)
 	*	###### 监督学习:
-		*	[线性回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LinearRegression)<br>
+		*	[线性回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LinearRegression) <br>
+
 		    采用batch，mini_batch, sgd三种梯度优化方法，实现线性回归。
+
 		*	[局部加权回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LWR)
 		    线性回归算法的扩展，目标函数是加权的最小二乘。
 		*	[逻辑回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LogisticRegression)
