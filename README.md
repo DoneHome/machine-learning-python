@@ -1,4 +1,4 @@
-# STUDY
+# Using Python to implement Machine Learning Algorithms
 
 #### 学习过程中的编码尝试:
 
