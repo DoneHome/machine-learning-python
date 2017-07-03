@@ -12,7 +12,7 @@
 		*	[高斯判别分析](https://github.com/DoneHome/STUDY/tree/master/algorithm/GDA)
 		*	[支持向量机](https://github.com/DoneHome/STUDY/tree/master/algorithm/SVM)
 		*	[集成算法](https://github.com/DoneHome/STUDY/tree/master/algorithm/EnsembleClassifier)
-		*	[隐马尔科夫](https://github.com/DoneHome/STUDY/blob/master/algorithm/HiddenMarkovModel.py)
+		*	[隐马尔科夫](https://github.com/DoneHome/STUDY/tree/master/algorithm/HMM)
 		*	...
 	*	###### 无监督学习:
 		*	[Kmeans]
@@ -21,6 +21,6 @@
 
 *	##### 可视化效果图
 	*	###### Example:  *逻辑回归*
-		<img src="https://github.com/DoneHome/STUDY/blob/master/algorithm/pic/Logistic_Regression_SGD.png" width = "450" alt="逻辑回归" />
+		<img src="https://github.com/DoneHome/STUDY/blob/master/algorithm/LogisticRegression/Logistic_Regression_SGD.png" width = "450" alt="逻辑回归" />
 
 
