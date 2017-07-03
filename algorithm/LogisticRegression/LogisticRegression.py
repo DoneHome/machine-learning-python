@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = np.genfromtxt("./data/logistic_regression.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./logistic_regression.csv", dtype=np.float64, delimiter=",")
 #data = np.genfromtxt("./data/logistic_regression_2.txt", dtype=np.float64, delimiter=",")
 plt.figure(1,figsize=(8, 8))
 plt.figure(1)
@@ -118,13 +118,11 @@ class LR():
 
         if opt == "batch":
             """
-            sgd loss epoch曲线十分平滑，难道在收敛的过程中不应该有些波动吗？
             """
             loss_epoch = self.GradientOptimization(X, Y)
             return loss_epoch
         elif opt == "newton":
             """
-            不稳定，跑n次才成功一次
             """
             loss_epoch = self.NewtonOptimization(X, Y)
             return loss_epoch

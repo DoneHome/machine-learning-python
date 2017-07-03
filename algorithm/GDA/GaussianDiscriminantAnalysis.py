@@ -4,8 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-
-data = np.genfromtxt("./data/gaussian_discriminant_analysis.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./gaussian_discriminant_analysis.csv", dtype=np.float64, delimiter=",")
 fig = plt.figure()
 #ax = Axes3D(fig)
 

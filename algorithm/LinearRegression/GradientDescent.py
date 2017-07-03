@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 线性回归
 """
 
-data = np.genfromtxt("./data/liner_regression_data.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./linear_regression_data.csv", dtype=np.float64, delimiter=",")
 plt.figure(1)
 plt.scatter(data[:,0],data[:,1])
 
