@@ -1,12 +1,12 @@
 # Using Python to implement Machine Learning Algorithms
 
-#### 学习过程中的编码尝试:
+#### 一些经典机器学习算法的python实现，目前仍在持续补充；
 
-## [Algorithm](https://github.com/DoneHome/STUDY/tree/master/algorithm)
+## [内容简介]
 
 *	##### code (机器学习算法实现)
 	*	###### 监督学习:
-		*	[线性回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LinearRegression)
+		*	[线性回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LinearRegression)	分别采用batch，mini_batch, sgd三种梯度优化方法，实现线性回归算法。
 		*	[局部加权回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LWR)
 		*	[逻辑回归](https://github.com/DoneHome/STUDY/tree/master/algorithm/LogisticRegression)
 		*	[高斯判别分析](https://github.com/DoneHome/STUDY/tree/master/algorithm/GDA)
