@@ -16,6 +16,9 @@ def z_scores(data):
 class LR():
     """
     Logistic Regression
+
+    Reference:
+        http://www.cnblogs.com/ooon/p/5729982.html
     """
 
     def __init__(self):
