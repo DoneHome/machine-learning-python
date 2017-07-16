@@ -3,8 +3,8 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = np.genfromtxt("./logistic_regression.csv", dtype=np.float64, delimiter=",")
-#data = np.genfromtxt("./data/logistic_regression_2.txt", dtype=np.float64, delimiter=",")
+#data = np.genfromtxt("./logistic_regression.csv", dtype=np.float64, delimiter=",")
+data = np.genfromtxt("./logistic_regression_2.txt", dtype=np.float64, delimiter=",")
 plt.figure(1,figsize=(8, 8))
 plt.figure(1)
 
@@ -139,8 +139,8 @@ if __name__ == "__main__":
     trainY = data[:,-1]
 
     lr = LR()
-    #loss_epoch = lr.train(trainX, trainY, opt="batch")
-    loss_epoch = lr.train(trainX, trainY, opt="newton")
+    loss_epoch = lr.train(trainX, trainY, opt="batch")
+    #loss_epoch = lr.train(trainX, trainY, opt="newton")
     print lr.theta
     print loss_epoch
 
@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
     p1.plot(np.array(loss_x), np.array(loss_y))
     p1.set_ylabel("loss")
-    p1.set_xlabel("epoch")
+    p1.set_xlabel("iterations")
 
     p2 = plt.subplot(212)
 
